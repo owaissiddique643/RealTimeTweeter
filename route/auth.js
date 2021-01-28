@@ -2,14 +2,14 @@ var express = require('express')
 var bcrypt = require("bcrypt-inzi")
 var jwt = require('jsonwebtoken');
 var postmark = require("postmark");
-var emailApi = "123";
+var emailApi = process.env.API_TOKEN;
 
 var client = new postmark.ServerClient(emailApi);
 // var client = new postmark.ServerClient("");
 var {
     otpModel,
     userModel,
-} = require("../dbcon/modeles");
+} = require("./../dbcon/modeles");
 
 
 
@@ -189,8 +189,8 @@ router.post('/forget-password', (req, res, next) => {
         } else if (user) {
             console.log(user)
             const otp = Math.floor(generetOtp(111111, 999999))
-            console.log("otp is===>"),
-            console.log(req.body.email)
+            console.log("otp is===>"+otp),
+            // console.log(req.body.email)
             otpModel.create({
                 email: req.body.email,
                 otpCode: otp
@@ -204,7 +204,7 @@ router.post('/forget-password', (req, res, next) => {
                     res.send({
                         status: 200,
                         message: "success",
-                        otp : otp,
+                        otpCode : otp,
                     })
                     // isko check karo
                 }).catch((err) => {
@@ -257,8 +257,9 @@ router.post("/forget-password-step-2", (req, res, next) => {
         function (err, user) {
 
             if (err) {
-                res.status(500).send({
-                    message: "an error occured: " + JSON.stringify(err)
+                res.send({
+                    message: "an error occured: " + JSON.stringify(err),
+                    status:500,
                 });
             } else if (user) {
 

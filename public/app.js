@@ -1,5 +1,5 @@
-const url = "http://localhost:3000";
-// const url='https://new-tweeter-app.herokuapp.com';
+// const url = "http://localhost:3000";
+const url='https://main-123.herokuapp.com';
 // const { default: axios } = require("axios");
 var socket = io(url);
 
@@ -136,12 +136,13 @@ function forget() {
         if (response.data.status === 200) {
             alert(response.data.message)
             location.href = "./forget2.html"
+            console.log(user.data.otpCode)
         }
         else {
             alert(response.data.message)
         }
     }, (error) => {
-        console.log("error is here")
+        console.log("error is here"+error)
         console.log(error);
     });
     return false

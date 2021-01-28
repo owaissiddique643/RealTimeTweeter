@@ -86,7 +86,7 @@ app.use(function (req, res, next) {
             const nowDate = new Date().getTime();
             const diff = nowDate - issueDate;
 
-            if (diff > 300000) {
+            if (diff > 300000000) {
                 res.status(401).send("token expired")
             } else {
                 var token = jwt.sign({
